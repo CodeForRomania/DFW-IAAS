@@ -1,0 +1,5 @@
+ntpserver0: "server 0.ubuntu.pool.ntp.org"
+ntpserver1: "server 0.ubuntu.pool.ntp.org"
+ntpserver2: "server 0.ubuntu.pool.ntp.org"
+ntpserver3: "server 0.ubuntu.pool.ntp.org"
+    

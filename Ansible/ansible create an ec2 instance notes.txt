@@ -1,0 +1,69 @@
+Ansible ec2 instance creation playbook:
+
+Requirements:
+
+Step 1:
+AWS login - free tier
+IAM Key and Secret
+Import/export keys
+Ansible on Linux
+Install boto3 (  pip install boto )
+
+Step 2:
+create a boto file:
+touch ~/.boto
+vi ~/.boto
+[Credentials]
+aws_access_key_id = {{ your values }}
+aws_secret_access_key = {{ your values }}
+
+Step 3:
+ssh key
+download you public ssh-key file "id_rsa.pub" from /root/.ssh/ folder to your computer
+login to aws and import the id_rsa.pub key to ec2 => Key Pairs => Import Key pair
+
+if you don't have a ssk key create one on your ansible server by typing following command and accept all defaults
+
+ssh-keygen
+
+now check folder /root/.ssh/ you will find id_rsa.pub file
+
+Step 4:
+Create a playbook
+
+vi ec2instance.yaml
+
+copy and paste following and change values as needed:( pay attention to keypair, region, image values may change for your enviromnet)
+
+--- # creating a ec2 instance in AWS using ansible
+- name: create a ec2 isnatnce
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    keypair: id_rsa
+    instance_type: t2.micro
+    image: ami-11aa8c74
+    region: us-east-2
+  tasks:
+    - name: create a ec2 instance
+      ec2:
+         key_name: '{{ keypair }}'
+         group: default
+         instance_type: '{{ instance_type }}'
+         image: '{{ image }}'
+         wait: true
+         region: '{{ region }}'
+         count: 1
+      register: ec2
+
+-----------------------
+
+We can also create a playbook to delete any instance.
+
+However do this quickly deleting this via AWS CLI:
+
+command:
+aws ec2 terminate-instances --instance-ids  i-04c1d558b78974aee
+
+

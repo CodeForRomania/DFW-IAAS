@@ -1,0 +1,26 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::060671536724:root"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::kpgw-prod"
+        },
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::027434742980:root"
+            },
+            "Action": "s3:PutObject",
+            "Resource": [
+                "arn:aws:s3:::kpgw-prod/crp-elb/AWSLogs/060671536724/*",
+                "arn:aws:s3:::kpgw-prod/elf-elb/AWSLogs/060671536724/*",
+                "arn:aws:s3:::kpgw-prod/zeppelin-elb/AWSLogs/060671536724/*",
+                "arn:aws:s3:::kpgw-prod/elk-elb/AWSLogs/060671536724/*"
+            ]
+        }
+    ]
+}

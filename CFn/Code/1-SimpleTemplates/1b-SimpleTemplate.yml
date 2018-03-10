@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create S3 Bucket and EC2 instance.
+
+Resources:
+  MyEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-97785bed     # Replace with your Amazon Linux AMI ID
+      InstanceType: t2.micro
+  MyS3:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: iacc-xxxxxxxx #Replace xxxxxx with your full name.

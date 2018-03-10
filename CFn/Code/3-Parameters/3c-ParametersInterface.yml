@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create S3 Bucket and EC2 instance with parameter Interface.
+
+Parameters:
+  InstanceTypeParameter:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t2.micro
+      - t2.large
+    Description: Select EC2 instance type
+
+  EC2KeyPair:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Name of an existing EC2 key pair
+    Default: iaccpk.pem
+
+  EC2AmiID:
+    Type: AWS::EC2::Image::Id
+    Default: ami-97785bed
+    Description: Name of an AMI ID
+
+  ProjectCostCenter:
+    Type: String
+    Description: Cost center.
+    Default: '1234567890'
+  Owner:
+    Type: String
+    Description: Owner of EC2 instance.
+    Default: 'My Name'
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      -
+        Label:
+          default: "Infrastructure Details"
+        Parameters:
+          - InstanceTypeParameter
+          - EC2KeyPair
+          - EC2AmiID
+      -
+        Label:
+          default: "Mandatory Tags"
+        Parameters:
+          - Owner
+          - ProjectCostCenter
+
+    ParameterLabels:
+      InstanceTypeParameter:
+        default: "EC2 instance type"
+Resources:
+  MyEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref EC2AmiID
+      InstanceType: !Ref InstanceTypeParameter
+      KeyName: !Ref EC2KeyPair
+  MyS3:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: iacc-xxxxxxxx                               #Replace xxxxxx with your full name.

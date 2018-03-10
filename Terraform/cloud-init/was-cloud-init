@@ -1,0 +1,25 @@
+#cloud-config
+users:
+  - default
+  - name: secuser
+    gecos: Jenkins user
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh-import-id: None
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCIefg4RtiUN4vRLKNqOA420ZbSsDe6Br6YW4glKmF7/1NYRS4fpotAWrsKNw/Hc0NbpiZl+Wh99YQ4RqoGfj/bk6MmUCKodWQUc6jrTPauU/mqc4gHCKEh6Dfuj43rwd5/1AgXZb50FMhs6HQTML4GDiiAFYSpAc0z56FkfBJmvMunUUqZ0cTJ/nsmUeW5OnedwGmlvIXgThBybqXuycZp9xt+0hoYcilMVR6XyIvHFwVxtuQw/bjAmcvQPF8I9QjvtCvZyk5ZsdDrugfo4TSgiOs7ZNmvhdHs5u4tPmbVRW7ThUCvHtT5iJbuDgBn2ShjuVhwwLPOpQre1PvbEoP
+  - name: crpuser
+    gecos:  Cardica Rehab user
+    ssh-import-id: None
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDqvdZ8F7pJSeT0/unIxuHMom4JlOOeuJKNxZ04aRtzwJ+/LC1/kn/sU/SBxeEaUgC10CAtRh8211bjdINZTNFJwOvZ2px9Nx6kbWcwIbrIGr6hEtNUAPqKQ7ia8Uo99k1RNILcZ5TjG+25kY2b8McLg9h6zHyC47its+QsI+Yt2JXA4GG2Fh5SIhLNP+PEvkNQHMplmR8R4YFexoPq6GEChc5SLa7auOH/MwLlaxa6VzEJVC6NF9qRqnfMVa12kEtAl386gFrptf7GTdz1CkReP98YyZnrtdaRkpQ+/N3/1OmM6szgi2rJeU1P5NQ6S6cNG2bXJxbR6jgjJM6x8rcL
+
+preserve_hostname: true
+
+runcmd:
+  - [yum, update, -y]
+  - [yum, -y, erase, java-1.7.0]
+  - [sudo, yum, -y, install, java-1.8.0]
+  - [sudo, yum, -y, install, tomcat8, tomcat8-webapps, tomcat8-admin-webapps]
+  - [pip, install, phoenixdb]
+
+output : { all : '| tee -a /var/log/cloud-init-output.log' }
