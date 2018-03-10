@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - name: create a directory using shell
+    shell: mkdir /var/log/test_dir1
+
+  - name: Create a directory using file
+    file: path=/var/log/test_dir2 state=directory mode=0755
+
+  - name: list file or directory content
+    shell: ls -l
+    register: result
+  - debug: var=result
+
+  - name: Install tree
+    apt: name=tree state=latest

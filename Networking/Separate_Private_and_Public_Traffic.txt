@@ -1,0 +1,9 @@
+The goal of this exercise would be to create one AWS instance with two ENIs and use one ENI only for traffic coming from outside the VPC and the other one only for traffic within the VPC.
+
+This exercise assumes that you have a VPC with 1 private and 1 public subnet. And Ideally another instance in the private subnet to use for testing.
+1- Launch an distance with a public IP 
+2- Create another ENI in a private subnet
+3- Attach this last ENI to the instance
+4- Do your magic on the routing table of the instance (not AWS route table) so that one ENI is only used for private traffic and another is used for public traffic.
+5- Test that while running a TCP dump or some other utility to see what direction/entries both kinds of traffic are taking.
+You're done if that was successful.

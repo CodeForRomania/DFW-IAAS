@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create EC2 instance using parameters and condition.
+
+Resources:
+  MyEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-97785bed             # Replace with your Amazon Linux AMI ID
+      InstanceType: t2.micro
+Outputs:
+
+  PrivIPAddress:
+    Description: 'Private IP address of EC2 instance.'
+    Value: !GetAtt 'MyEC2.PrivateIp'
+  PublicIPAddress:
+    Description: 'Public IP address of EC2 instance.'
+    Value: !GetAtt 'MyEC2.PublicIp'    

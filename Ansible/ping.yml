@@ -1,0 +1,9 @@
+---
+- name: ping server
+  hosts: testserver
+  remote_user: ec2-user
+
+
+  tasks:
+  - name: get Ping response
+    ping:

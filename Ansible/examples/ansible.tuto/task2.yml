@@ -1,0 +1,33 @@
+---
+- name: Task-02
+  hosts: localhost
+  gather_facts: yes
+  become: yes
+  vars:
+       package: ['htop','unzip','traceroute']
+  tasks:
+  - name: Install Packages
+    apt: name={{ item }} state=present
+    with_items: package
+    when: ansible_os_family=="Debian"
+    tags: install_packages
+
+  - name: Download Cirros Image from HTTP link
+    get_url: url="http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img" dest="/tmp/" mode=0644
+    tags: download_Image
+
+  - name: Create a file
+    file: path=/tmp/test.conf state=touch mode="u=rw,g=r,o=r"
+    tags: create_file
+
+  - name: Find file created as part of above task
+    find: paths="/tmp/" patterns="test.*"
+    register: result
+    tags: find_output
+
+  - debug: var=result
+    tags: find_output
+
+  - name: Create a cron job to monitor disk space
+    cron: name="Monitor_Disk" minute=0 hour="1" user=cloud job="sudo df -H >> /tmp/output.txt"
+    tags: ['disk', 'monitor']

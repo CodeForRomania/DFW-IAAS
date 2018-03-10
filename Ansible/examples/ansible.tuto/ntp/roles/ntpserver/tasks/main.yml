@@ -1,0 +1,31 @@
+---
+
+- name: Install NTP package
+  apt: pkg=ntp state=latest
+
+- name: Removing default content in NTP
+  file: path=/etc/ntp.conf state=absent
+
+- name: Assigning required permmisions
+  file: path=/etc/ntp.conf state=touch mode=0755
+
+- name: Replace the content with NTP servers. 
+  blockinfile: 
+   dest: /etc/ntp.conf
+   block: |
+      # Use servers from the NTP Pool Project. Approved by Ubuntu Technical Board
+      # on 2011-02-08 (LP: #104525). See http://www.pool.ntp.org/join.html for
+      # more information.
+      {{ntpserver0}}
+      {{ntpserver1}}
+      {{ntpserver2}}
+      {{ntpserver3}}
+  notify:
+    - NTP server restart
+
+- name: Display status on the screen
+  shell: ntpq -p
+  register: ntp
+
+- debug: var=ntp
+    

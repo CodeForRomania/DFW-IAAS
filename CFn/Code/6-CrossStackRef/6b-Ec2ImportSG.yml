@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create S3 Bucket and EC2 instance with custom Security group.
+
+
+Resources:
+  MyEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-97785bed
+      InstanceType: t2.micro
+      NetworkInterfaces:
+        - DeviceIndex: '0'
+          Description: Interface for EC2
+          GroupSet:
+            - Fn::ImportValue: My6aSG
+          SubnetId: subnet-f9a479d5 # Replace this with your subnet id

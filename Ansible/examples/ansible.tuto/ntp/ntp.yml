@@ -1,0 +1,7 @@
+---
+- name: Deploy and Configure NTP 
+  hosts: your_machine
+  become: yes
+  gather_facts: no
+  roles:
+    - { role: roles/ntpserver }
