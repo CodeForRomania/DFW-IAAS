@@ -1,0 +1,19 @@
+---
+- name: Task-03
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: ensure apache is at the latest version
+    apt: pkg=apache2 state=installed update_cache=true
+    notify:
+     - Start Apache2
+
+  - pause: seconds=5
+
+  - name: Copy html file
+    copy: src=/tmp/index.html dest=/var/www/html/index.html owner=ubuntu group=ubuntu mode=0644
+
+  handlers:
+    - name: Start Apache2
+      service: name=apache2 state=restarted
+

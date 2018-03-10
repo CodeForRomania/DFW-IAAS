@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create EC2 instance using parameters and condition.
+
+Parameters:
+  InstanceSize:
+    Type: String
+    Default: Small
+    AllowedValues:
+      - Small
+      - Medium
+    Description: Select EC2 instance size
+
+Conditions:
+  isSmall:
+    !Equals [!Ref InstanceSize, "Small"]
+
+Resources:
+  MyEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-97785bed                                   # Replace with your Amazon Linux AMI ID
+      InstanceType: !If [isSmall, t2.micro, t2.medium]

@@ -1,0 +1,10 @@
+---
+- name: Install webserver
+  hosts: TargetServer
+
+  tasks:
+   - name: Start Apache
+     service: name=httpd state=stopped
+
+   - name: install apache
+     yum: pkg=httpd state=absent

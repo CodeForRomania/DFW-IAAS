@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Creates Security Group.
+
+#### Parameters ####################################################################################################
+Parameters:
+
+  VPCID:
+    Type: AWS::EC2::VPC::Id
+    Description: ID of the VPC to create Security Groups in.
+###############################################################################
+
+Resources:
+  MyAccessSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable access within the VPC
+      VpcId: !Ref VPCID
+      SecurityGroupIngress:
+        -
+          CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+        -
+          CidrIp: 0.0.0.0/0
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+      SecurityGroupEgress:
+        -
+          CidrIp: 0.0.0.0/0
+          IpProtocol: -1
+          FromPort: -1
+          ToPort: -1
+###############################################################################
+#
+###############################################################################
+Outputs:
+  MySecurityGroup:
+    Description: Enable My access
+    Value: !Ref MyAccessSecurityGroup
+    Export:
+      Name: "My6aSG"

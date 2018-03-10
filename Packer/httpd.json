@@ -1,0 +1,25 @@
+{
+  "variables": {
+    "ami_id": "ami-97785bed",
+    "app_name": "iacc2018"
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "region": "us-east-1",
+    "source_ami": "{{user `ami_id`}}",
+    "instance_type": "t2.micro",
+    "ssh_username": "ec2-user",
+    "ami_name": "packer-Test-{{user `app_name` }}",
+    "tags": {
+        "Name": "packer-test-{{user `app_name` }}",
+        "Env": "Test"
+      }
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "install_httpd.sh"
+    }
+  ]
+
+}

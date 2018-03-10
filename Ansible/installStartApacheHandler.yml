@@ -1,0 +1,13 @@
+---
+- name: Install webserver
+  hosts: TargetServer
+
+  tasks:
+   - name: install apache
+     yum: pkg=httpd state=latest
+     notify:
+      - Start Apache
+
+  handlers:
+   - name: Start Apache
+     service: name=httpd state=started

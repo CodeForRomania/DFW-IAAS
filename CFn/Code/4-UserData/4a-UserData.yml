@@ -1,0 +1,34 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create EC2 instance with webserver using UserData.
+
+Resources:
+###### ORACLE-EC2
+## Make sure your default security group has http port open for the world
+  MyEC2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-97785bed                     # Replace with your Amazon Linux AMI ID
+      InstanceType: t2.micro
+      KeyName: iaccpk.pem
+      UserData:
+        "Fn::Base64":
+          !Sub |
+            #!/bin/bash
+            yum install httpd -y
+            yum update -y
+            echo "Hello World" > /var/www/html/index.html
+            echo "<br />" >> /var/www/html/index.html
+            curl http://169.254.169.254/latest/meta-data/local-ipv4 >> /var/www/html/index.html
+            echo "<br />" >> /var/www/html/index.html
+            curl http://169.254.169.254/latest/meta-data/public-hostname >> /var/www/html/index.html
+            echo "<br />" >> /var/www/html/index.html
+            curl http://169.254.169.254/latest/meta-data/placement/availability-zone >> /var/www/html/index.html 
+            echo "<br />" >> /var/www/html/index.html
+            curl http://169.254.169.254/latest/meta-data/public-ipv4 >> /var/www/html/index.html
+            echo "<br />" >> /var/www/html/index.html
+            service httpd start
+            chkconfig httpd on
+  MyS3:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: iacc-xxxxxxxx                         # Replace xxxxxx with your full name.

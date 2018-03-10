@@ -1,0 +1,2 @@
+[your_machine]
+ip-172-31-6-101 ansible_ssh_host=52.38.129.7 ansible_connection=ssh ansible_ssh_user=cloud ansible_ssh_pass=cloud
